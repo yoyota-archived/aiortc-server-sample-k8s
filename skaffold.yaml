@@ -1,0 +1,16 @@
+apiVersion: skaffold/v1beta13
+kind: Config
+build:
+  artifacts:
+    - image: registry.dudaji.org/huhuta/webrtc-server-example
+deploy:
+  helm:
+    releases:
+      - name: webrtc-server-example
+        namespace: bubuta
+        chartPath: k8s/helm
+        valuesFiles:
+          - k8s/values.yaml
+        setValueTemplates:
+          image.repository: "{{.IMAGE_NAME}}"
+          image.tag: "{{.DIGEST}}"
